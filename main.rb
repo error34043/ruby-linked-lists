@@ -2,17 +2,17 @@
 
 # Represents the full list
 class LinkedList
-  attr_accessor :head, :tail
+  attr_accessor :head, :tail, :size
 
   def initialize
     @head = nil
     @tail = nil
-    @number_of_nodes = 0
+    @size = 0
   end
 
   def append(value)
     new_node = Node.new(value)
-    @number_of_nodes += 1
+    @size += 1
     if @tail
       @tail.next_node = new_node
     else
@@ -23,13 +23,9 @@ class LinkedList
 
   def prepend(value)
     new_node = Node.new(value, @head)
-    @number_of_nodes += 1
+    @size += 1
     @tail ||= new_node
     @head = new_node
-  end
-
-  def size
-    @number_of_nodes
   end
 
   def at(index)
@@ -46,8 +42,8 @@ class LinkedList
 
   def pop
     if @tail
-      @number_of_nodes -= 1
-      @tail = self.at(@number_of_nodes - 1)
+      @size -= 1
+      @tail = self.at(@size - 1)
       @tail.next_node = nil
     else
       'There are no elements in the list.'
@@ -56,7 +52,7 @@ class LinkedList
 
   def contains?(value)
     current_node = @head
-    @number_of_nodes.times do
+    @size.times do
       return true if current_node.value == value
 
       current_node = current_node.next_node
@@ -68,7 +64,7 @@ class LinkedList
     if self.contains?(value)
       index = 0
       current_node = @head
-      @number_of_nodes.times do
+      @size.times do
         return index if current_node.value == value
 
         index += 1
@@ -81,7 +77,7 @@ class LinkedList
   def to_s
     output = ''
     current_node = @head
-    @number_of_nodes.times do
+    @size.times do
       output += "( #{current_node.value} ) -> "
       current_node = current_node.next_node
     end
@@ -90,7 +86,7 @@ class LinkedList
 
   # Extra credit
   def insert_at(value, index)
-    @number_of_nodes += 1
+    @size += 1
     node_to_replace = self.at(index)
     new_node = Node.new(value, node_to_replace)
     if index != 0
@@ -103,7 +99,7 @@ class LinkedList
 
   # Extra credit
   def remove_at(index)
-    @number_of_nodes -= 1
+    @size -= 1
     node_to_remove = self.find(index)
     if index != 0
       previous_node = self.at(index - 1)
